@@ -1,8 +1,8 @@
 package ru.Zybareva.math;
 
 public class Fraction1 {
-    private final int numerator;   // Числитель
-    private final int denominator; // Знаменатель
+    private int numerator;   // Числитель
+    private int denominator; // Знаменатель
 
     // Конструктор, принимающий числитель и знаменатель
     public Fraction1(int numerator, int denominator) {
@@ -22,6 +22,31 @@ public class Fraction1 {
 
         this.numerator = numerator;
         this.denominator = denominator;
+    }
+
+    // Геттер для числителя
+    public int getNumerator() {
+        return numerator;
+    }
+
+    // Сеттер для числителя
+    public void setNumerator(int numerator) {
+        this.numerator = numerator;
+        simplify();
+    }
+
+    // Геттер для знаменателя
+    public int getDenominator() {
+        return denominator;
+    }
+
+    // Сеттер для знаменателя
+    public void setDenominator(int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Знаменатель не может быть равен нулю.");
+        }
+        this.denominator = denominator;
+        simplify();
     }
 
     // Метод для получения строкового представления дроби
@@ -60,24 +85,16 @@ public class Fraction1 {
         return new Fraction1(newNumerator, newDenominator);
     }
 
-    // Метод для сложения дроби с целым числом
-    public Fraction1 add(int number) {
-        return add(new Fraction1(number, 1));
-    }
+    // Метод для упрощения дроби
+    private void simplify() {
+        int gcd = gcd(Math.abs(numerator), Math.abs(denominator));
+        numerator /= gcd;
+        denominator /= gcd;
 
-    // Метод для вычитания целого числа из дроби
-    public Fraction1 subtract(int number) {
-        return subtract(new Fraction1(number, 1));
-    }
-
-    // Метод для умножения дроби на целое число
-    public Fraction1 multiply(int number) {
-        return multiply(new Fraction1(number, 1));
-    }
-
-    // Метод для деления дроби на целое число
-    public Fraction1 divide(int number) {
-        return divide(new Fraction1(number, 1));
+        if (denominator < 0) {
+            numerator = -numerator;
+            denominator = -denominator;
+        }
     }
 
     // Нахождение наибольшего общего делителя
@@ -90,4 +107,3 @@ public class Fraction1 {
         return a;
     }
 }
-
